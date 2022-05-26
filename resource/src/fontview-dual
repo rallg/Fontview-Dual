@@ -1,0 +1,131 @@
+#!/bin/sh
+# File fontview-dual.
+
+# This program invokes either fontviewA or fontviewB.
+# If neither of them are active, this launches fontviewA.
+# If fontviewA is active but fontviewB is not, then this launches fontviewB
+# If both are active, then instead a notification appears.
+
+arg="$@"
+case "$arg" in
+	--gui*) gui="yes" ;;
+	-g) gui="yes" ;;
+	*) gui="no" ;;
+esac
+
+if [ "$arg" = "-a" ] || [ "$arg" = "--about" ] ; then
+	cat << EOA
+Copyright 2022, Robert Allgeyer. License GPLv2.
+
+Programs fontviewA and fontviewB are compiled from code,
+modified by Robert Allgeyer from "GNOME Fonts" source code, release 41.0,
+https://github.com/GNOME/gnome-font-viewer/releases/tag/41.0.
+The current project page is https://gitlab.gnome.org/GNOME/gnome-font-viewer,
+but the current code cannot be used in fontviewA or fontviewB.
+"Gnome Fonts" has license GPLv2.
+
+Credits and Copyrights for "GNOME Fonts" code can be found within
+each of the source code files.
+
+EOA
+	exit
+fi
+
+if [ "$arg" = "-h" ] || [ "$arg" = "--help" ] ; then
+	cat << EOH
+Usage : fontview-dual [OPTION] [FILE]
+Normally launched from Menu or context menu, rather than command line.
+OPTION :
+    -h or --help : Show Help.
+    -a or --about : Show About (Copyright, License).
+    -v or --version : Show Version.
+    -g or --gui : Launch window.
+FILE (only when preceded by -g or --gui) :
+    Window shows /path/to/filename.ext Where ext is otf or ttf.
+    Font does not need to be installed.
+    If no FILE argument, window shows list of installed files.
+
+Fontview Dual controls two programs, fontviewA and fontviewB.
+When launched from from Menu, or Terminal 'fontview-dual', it launches A or B,
+whichever is not already running. If both are running, a message appears.
+
+The launched window shows a list of installed font names. Click to show text.
+Click Info for metadata. Click the back button (top left) to return to list.
+
+Right-click context menu shows the font, even if not installed.
+Also can be used as Terminal 'fontview-dual /path/to/fontfile.otf'.
+
+The program does not support right-to-left or non-European languages.
+
+The sample text includes:
+    abcdefghijklmnopqrstuvwxyz
+    ABCDEFGHIJKLMNOPQRSTUVWXYZ
+    Numerals, selected punctuation: 0123456789.:,;(*!?') “”«»
+    Selected Latin-1 letters: àáâãäåç ÀÁÂÃÄÅÇ
+    Test characters outside Latin-1: Φλ Жч Őő Řř Łł Ĳĳ İı ʆʬ
+    Sample sentence.
+
+The test characters are chosen from the Greek, Cyrillic, Hungarian, Czech,
+Polish, Dutch, and Turkish sets, plus IPA phonetics.
+If you see meaningful characters, then the font probably has that set.
+But if the missing-character symbol appears, then it does not.
+Further investigation requires another application.
+
+Regardless of your system language settings, the sample sentence is always:
+    Quoth Wally, “Grab swag.”
+If no quotes appear, it means that the font does not have curly quotes.
+Letters are not kerned. Sample sizes are approximately 12pt, 18pt, 24pt.
+Actual size depends on the screen dpi chosen at build.
+
+EOH
+	exit
+fi
+
+if [ "$arg" = "-v" ] || [ "$arg" = "--version" ] ; then
+	echo "fontview-dual 41.0" && exit
+fi
+
+if [ -z "$arg" ] || [ "$gui" = "no" ] ; then
+	cat << EOU
+Usage : fontview-dual [OPTION] [FILE]
+Normally launched from Menu or context menu, rather than command line.
+OPTION :
+    -h or --help : Show Help.
+    -a or --about : Show About (Copyright, License).
+    -v or --version : Show Version.
+	-g or --gui : Launch window.
+FILE (only when preceded by -g or --gui) :
+    Window shows /path/to/filename.ext Where ext is otf or ttf.
+    Font does not need to be installed.
+    If no FILE argument, window shows list of installed files.
+No argument :
+    Show this Usage.
+EOU
+	exit
+fi
+
+unset a b d
+
+A="$(command -v fontviewA 2>/dev/null)"
+B="$(command -v fontviewB 2>/dev/null)"
+
+if [ -z "$A" ] || [ -z "$B" ] ; then
+	printf "\033[91mError.\033[0m Did not find fontviewA and fontviewB."
+	exit 1
+fi
+
+a="$(pidof fontviewA)"
+b="$(pidof fontviewB)"
+
+arg="$(echo $arg | sed 's/--gui//' | sed 's/-g//')"
+
+if [ -z "$a" ] ; then exec fontviewA $arg &
+elif [ -z "$b" ] ; then exec fontviewB $arg &
+else
+	echo "Both fontview windows are already active. Nothing done."
+	[ -n "$(command -v zenity)" ] && zenity --error --no-wrap --title="fontview-dual error" --window-icon=error --text="No more than 2 instances." &
+fi
+
+exit 2 # Error if this line is reached.
+##
+

@@ -1,0 +1,49 @@
+# Installation
+
+You may build and install fontview-dual in Linux, or in Termux.
+Entire process takes less than one minute, if you already have
+the compiler and dependencies.
+Since fontview-dual is a GUI program, you need a graphical desktop.
+
+If installing into Termux:
+    Executables are placed in $PREFIX/bin
+    Desktop is placed in $HOME/.local/share/applications
+
+If installing into Linux:
+    Executables are placed in /usr/local/bin
+    Desktop is placed in /usr/local/share/applications
+
+If you wish to change these locations, the simplest method is to edit variables
+'prefix', 'bindir', and 'datadir', near the top of file
+'resource/meson.termux' or 'resource/meson.linux'. Use absolute paths.
+
+
+## Compiler
+
+meson, ninja, and a C compiler (gcc or clang).
+
+
+## Dependencies
+
+glib
+gtk3
+libhandy
+harfbuzz
+fontconfig
+freetype2
+
+
+## Build and Install
+
+In this directory, run script `./installfv.sh`
+
+It will detect your system, ask a question, then show further instructions.
+
+
+## Uninstall
+
+Only four files are installed. It is easy to remove them manually.
+Programs: fontview-dual, fontviewA, fontviewB
+Desktop: fontview-dual.desktop
+
+
