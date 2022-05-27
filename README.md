@@ -59,11 +59,17 @@ The program does not create or display thumbnails.
 
 ## LICENSE:
 
-GPLv2. See file LICENSE.
-
 Script `fontview-dual` Copyright 2022 Robert Allgeyer.
 
 Source code has its own Copyrights and credits, written into the files.
 
-Prior to edits, source code obtained from 'GNOME Font Viewer' 41.0 project,
-released by them under GPLv2.
+Prior to edits, source code obtained from 'GNOME Font Viewer' project v41.0.
+
+All released under GPLv2. See file LICENSE.
+
+
+## VERSION:
+
+41.0.1 - Minor corrections to '--help' text. No functional changes.
+
+41.0 - Initial upload. Why 41.0? Based on GNOME Fonts v41.0 code.

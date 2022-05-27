@@ -53,7 +53,7 @@ The launched window shows a list of installed font names. Click to show text.
 Click Info for metadata. Click the back button (top left) to return to list.
 
 Right-click context menu shows the font, even if not installed.
-Also can be used as Terminal 'fontview-dual /path/to/fontfile.otf'.
+Also can be used as Terminal 'fontview-dual --gui /path/to/fontfile.otf'.
 
 The program does not support right-to-left or non-European languages.
 
@@ -82,7 +82,7 @@ EOH
 fi
 
 if [ "$arg" = "-v" ] || [ "$arg" = "--version" ] ; then
-	echo "fontview-dual 41.0" && exit
+	echo "fontview-dual 41.0.1" && exit
 fi
 
 if [ -z "$arg" ] || [ "$gui" = "no" ] ; then
