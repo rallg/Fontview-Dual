@@ -100,6 +100,8 @@ All released under GPLv2. See file LICENSE.
 
 ## VERSION:
 
+41.0.2 - Added more size choices.
+
 41.0.1 - Minor corrections to '--help' text. No functional changes.
 
-41.0 - Initial upload. Why 41.0? Based on GNOME Fonts v41.0 code.
+41.0 - Initial upload. Why 41.0? Based on 'GNOME Fonts' v41.0 code.

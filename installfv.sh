@@ -20,8 +20,6 @@
 # may recognize HDPI. Then the adjustment is automatic.
 # A given system may have some software that adjusts, others not.
 # So, this software does not know whether adjustment is needed.
-# It guesses that you have HDPI screen at 192pdi, without system adjustment.
-# That is the class 3 setting.
 # If wrong guess, the other classes let you tweak it.
 
 arg="$(echo $@ | sed 's/-*//g')"
@@ -72,14 +70,16 @@ echo "Some systems adjust for dpi. Others do not."
 echo "This installer assumes you have an HPDI screen, not adjusted."
 echo "If the installed program displays text too large or too small,"
 echo "Then re-run this installer with another choice of size."
-echo "Available sizes are 1 (small) to 5 (large). Default 3."
-printf "\033[1mChoose a size [1|2|3|4|5|x] : \033[0m" ; read r
+echo "Available sizes are 1 (small) to 7 (large). Default 3."
+printf "\033[1mChoose a size [1|2|3|4|5|6|7|x] : \033[0m" ; read r
 case "$r" in
 	1) sed -i 's/.*fvsize.*/#include "fvsize-1.c"/' "$sushi" ;;
 	2) sed -i 's/.*fvsize.*/#include "fvsize-2.c"/' "$sushi" ;;
 	3) sed -i 's/.*fvsize.*/#include "fvsize-3.c"/' "$sushi" ;;
 	4) sed -i 's/.*fvsize.*/#include "fvsize-4.c"/' "$sushi" ;;
 	5) sed -i 's/.*fvsize.*/#include "fvsize-5.c"/' "$sushi" ;;
+	6) sed -i 's/.*fvsize.*/#include "fvsize-6.c"/' "$sushi" ;;
+	7) sed -i 's/.*fvsize.*/#include "fvsize-7.c"/' "$sushi" ;;
 	x|X) echo "Exit at your request. Nothing done." && exit ;;
 	*) sed -i 's/.*fvsize.*/#include "fvsize-3.c"/' "$sushi" ;;
 esac
